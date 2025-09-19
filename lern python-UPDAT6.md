@@ -4270,9 +4270,9 @@ print(number)
 
   ما در پایتون دو نوع (attribute) در کلاس داریم.
 
-  1. instance attribute
+  1. **instance attribute**
 
-  2. class attribute
+  2. **class attribute**
 
 ## instance attribute
 
