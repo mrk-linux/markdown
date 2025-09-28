@@ -292,6 +292,7 @@
   - [بازنویسی سایر متدها](#بازنویسی-سایر-متدها)
     - [اورراید کردن متد `__repr__`](#اورراید-کردن-متد-__repr__)
     - [خروجی:](#خروجی-1)
+- [وراثت چند گانه](#وراثت-چند-گانه)
 
 # عمل گر مقایسه ای
 
@@ -4513,3 +4514,44 @@ User(username='ali', email='ali@example.com', phone='09123456789')
 ```
 
 در این مثال، متد `__repr__` بازنویسی شده تا اطلاعات بیشتری در خروجی نمایش داده شود.
+
+# وراثت چند گانه
+
+برای وراثت چند گانه کافی است در کلاسی که از کلاس پدر یا والد ارث بری می کند با کما `,` اسم چند کلاس را نام ببریم.
+
+```py
+class superclass1:
+  pass
+
+class superclass2:
+  pass
+class subclass(superclass1, superclass2):
+  pass
+```
+
+مشکلی  که این نوع از وراثت داره اینه که اگر (object) کلاس های ما یک اسم یا یک شکل باشه اولین (object) از اولین کلاس را اجرامی کنه
+
+برای حل این مشکل می توانیم اسم `خود کلاس` را صدا بزنیم به جای استفاده از __super__.
+
+**مثال:**
+
+```py
+class superclass1:
+  def __init__(self, p1):
+    self.p1 = p1
+
+class superclass2:
+  def __init__(self, p2):
+    self.p2 = p2
+
+class subclass(superclass1, superclass2):
+  def __init__(self, p1 ,p2, p3):
+    superclass1.__init__(self, p1):
+    superclass2.__init__(self, p2):
+    self.p3 = p3
+
+obj = subclass(1, 2, 3)
+print(obj.p1)
+print(obj.p2)
+print(obj.p3)
+```
