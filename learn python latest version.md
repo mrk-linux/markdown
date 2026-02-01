@@ -5311,3 +5311,63 @@ except ValueError as e:
 ۳. **تعریف متد انتزاعی:** برای اینکه مشخص کنیم یک متد انتزاعی است و باید توسط فرزندان پیاده‌سازی شود، از دکوراتور **`@abstractmethod`** قبل از تعریف متد استفاده می‌کنیم .
 
 **نکته فنی:** متدهای انتزاعی می‌توانند یک **پیاده‌سازی پیش‌فرض (Default)** داشته باشند، اما حتی در این صورت، زیرکلاس همچنان موظف است آن متد را اورراید (Override) کند؛ هرچند می‌تواند در داخل پیاده‌سازی جدید خود، با استفاده از `super()` همان رفتار پیش‌فرض را صدا بزند .
+
+مثال 
+
+```py
+from abc import ABC, abstractclassmethod
+
+class vehicle(ABC):
+
+    @abstractclassmethod
+    def move(self):
+        """this method should be implement"""
+        print("default move method")
+
+    @abstractclassmethod
+    def repair(self):
+        """this methot be implement"""
+
+    def class_name(self):
+        print(f"class name is: {self.__class__.__name__}")
+
+
+class landvehicle(vehicle): #  ارث بری چندگانه انتزاعی
+    @abstractclassmethod
+    def Break(self):
+        """this methot be implement"""  
+    
+class airvehicle(vehicle): # ارث بری چندگانه انتزاعی
+    @abstractclassmethod
+    def eject(self):
+        """this methot be implement"""  
+    
+class airplain(airvehicle): # ارث بری از کلاس انتزاعی airvehicle
+    def move(self):
+        super(airplain, self).move() #میتوانیم از متد پیش فرض کلاس پایه استفاده کنیم
+        print("airplain is moving") #میتوانیم متد را اورراید کنیم
+
+    def repair(self):
+        print("airplain is repairing")
+
+    def eject(self):
+        print("airplain is ejecting")
+
+
+class car(landvehicle): # ارث بری از کلاس انتزاعی landvehicle
+    def move(self):
+        super(car, self).move() #میتوانیم از متد پیش فرض کلاس پایه استفاده کنیم
+        print("car is moving") #میتوانیم متد را اورراید کنیم
+
+    def repair(self):
+        print("car is repairing")
+
+    def brake(self):
+        print("car is braking")
+
+
+airplain = airplain() # میتونیم ابجکت car هم استفاده کنیم
+airplain.move()
+airplain.repair()
+airplain.class_name()update 
+```
