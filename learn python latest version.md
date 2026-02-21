@@ -5897,3 +5897,86 @@ finally:
     print("3: finally")  # حتی بعد از except اجرا می‌شود
 # خروجی: 1, 2, 3
 ```
+===================================================================================================================================
+
+## مدیریت استثنا تو در تو
+
+از ان جای که در دستور except مدیریت خطا انجام میشود 
+نمی توان این انتظار را داشت که در این دستور خطای رخ ندهد.
+
+**مثال**
+
+- نمی توانیم به صورت زیر یک دستور را داخل بدنه except  نوشت  و انتظار داشت که
+
+دستور except تمام خطا ها را مدیریت کند .
+
+```py
+def div(x, y, z):
+  try:
+    s = x + y
+    result = s/n
+
+except Exception as e:
+    print(e.__class__.__name__)
+    print(z) # نمی تواند z  را پرینت کند
+    '''
+    ارور name error  می دهد
+    '''
+  else:
+    print("result")
+
+dev(4, 2, 6)
+```
+
+برای مدیریت خطا ها باید ان ها را به صورت تو در تو نوشت 
+
+```py
+def div(x, y, z):
+    try:
+        s = x + y
+        result = s/z
+
+    except Exception as e:
+        print(e.__class__.__name__)
+
+        try:
+            print(z) # نمی تواند z  را پرینت کند
+    
+        except NameError:
+            print ("name error")
+    else:
+        print("result")
+
+div(4, 2, 6)
+```
+
+- به صورت کلی به این صورت نوشته نمی شود اما اگر نیاز بود اشکالی ندارد
+
+پایتون در مدیریت خطا، بلاک‌های `except` را یکی‌یکی از اول به آخر چک می‌کند.
+
+به محض اینکه یک `except` مناسب برای خطای پیش‌آمده پیدا کند، آن را اجرا کرده و بقیه را رها می‌کند.
+
+```py
+def div(x, y, z):
+    try:
+        s = x + y
+        result = s/z
+        print("result:", result)
+
+    except Exception as e:
+        print(e.__class__.__name__)
+
+def func(): 
+    try:
+        a = int(input("enter a number: "))
+        b = int(input("enter b number: "))
+        c = int(input("enter c number: "))
+        div(a, b, c)
+    except Exception as e: # با توجه به انکه کدام دستور مدیریت خطا زود تر نوشته شده ان را اجرا میکند
+        print(e.__class__.__name__)
+
+try: # می توان ساختار مدیریت خطا را هم در صدا زدن تابع اجرا کرد
+    func()
+except:
+    print("error")
+```
